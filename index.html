@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ SONGHY UR 6★ RAINBOW GACHA CARD SUMMON ✨</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Animated Canvas Background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Top Infinite Marquee Ticker (Image Only) -->
+  <div class="marquee-container marquee-top">
+    <div class="marquee-track">
+      <div class="sig-card"><img src="img/sig/songhy_12468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_1468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_168.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_2868.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_682.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_957.png" alt="sig" class="sig-img"></div>
+      <!-- Duplicated for seamless loop -->
+      <div class="sig-card"><img src="img/sig/songhy_12468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_1468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_168.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_2868.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_682.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_957.png" alt="sig" class="sig-img"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Infinite Marquee Ticker (Image Only) -->
+  <div class="marquee-container marquee-bottom">
+    <div class="marquee-track reverse">
+      <div class="sig-card"><img src="img/sig/songhy_957.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_682.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_2868.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_168.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_1468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_12468.png" alt="sig" class="sig-img"></div>
+      <!-- Duplicated for seamless loop -->
+      <div class="sig-card"><img src="img/sig/songhy_957.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_682.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_2868.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_168.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_1468.png" alt="sig" class="sig-img"></div>
+      <div class="sig-card"><img src="img/sig/songhy_12468.png" alt="sig" class="sig-img"></div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header Banner (Space Preserved) -->
+    <header class="main-header" style="visibility: hidden;">
+      <div class="header-badge">✦ RAINBOW UR 6★ GACHA ✦</div>
+      <h1 class="main-title">SONGHY CARD SUMMON</h1>
+      <p class="main-subtitle">화려함의 극치! 무지개빛 6성 UR 송현 한정판 카드를 소환해보세요!</p>
+    </header>
+
+    <!-- Stage 1: Summon Gate -->
+    <div class="stage-container" id="stageContainer">
+      <div class="summon-gate">
+        <div class="magic-circle"></div>
+        <div class="magic-circle-inner"></div>
+        <div class="summon-orb" id="summonOrb">Click</div>
+      </div>
+    </div>
+
+    <!-- Cutscene Overlay -->
+    <div class="cutscene-overlay" id="cutsceneOverlay">
+      <div class="beam-ray"></div>
+      <div class="cutscene-text" id="cutsceneText">UR POWER CHARGING... 3</div>
+    </div>
+
+    <!-- Screen Flash -->
+    <div class="flash-screen" id="flashScreen"></div>
+
+    <!-- Stage 2: Card Reveal & Profile Info -->
+    <main class="card-section" id="cardSection">
+      <!-- 3D Card Stage (Left Side) -->
+      <div class="card-stage">
+        <div class="gacha-card-wrapper" id="cardWrapper">
+          <div class="gacha-card">
+            <div class="holo-foil" id="holoFoil"></div>
+            <div class="card-header-badge">
+              <span class="rarity-pill">UR 6★ RAINBOW</span>
+              <span class="stars">★★★★★★</span>
+            </div>
+            <div class="card-img-box">
+              <img src="img/107269dff266d56e6.gif" alt="Songhy UR Card">
+            </div>
+            <div class="card-info-footer">
+              <h2 class="card-character-name">송현 (SONGHY)</h2>
+              <span class="card-character-title">[ISTP] MASTER SINGER & ANIME ENTHUSIAST</span>
+            </div>
+          </div>
+        </div>
+        <!-- Controls Bar Underneath Card -->
+        <div class="controls-bar">
+          <button class="btn-action" id="btnResummon">🔄 다시 소환하기</button>
+          <button class="btn-action" id="btnFirework">🎉 무지개 폭죽!</button>
+        </div>
+      </div>
+
+      <!-- Profile Grid (Right Side) -->
+      <div class="profile-grid" id="profileGrid">
+        <!-- Profile Card 1 -->
+        <div class="info-card">
+          <h3 class="card-title">👤 PROFILE INFO</h3>
+          <ul class="info-list">
+            <li class="info-item">
+              <span class="info-label">이름</span>
+              <span class="info-value highlight">송현</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">생일</span>
+              <span class="info-value">06/08</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">MBTI</span>
+              <span class="info-value highlight">ISTP</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">메인컬러</span>
+              <span class="info-value">오렌지, 검정 🟧⬛</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Profile Card 2 -->
+        <div class="info-card">
+          <h3 class="card-title">💬 FANDOM & INSIGHT</h3>
+          <ul class="info-list">
+            <li class="info-item">
+              <span class="info-label">인사</span>
+              <span class="info-value highlight">송하, 송바</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">팬이름</span>
+              <span class="info-value">황숭이</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">팬닉 태그</span>
+              <span class="info-value highlight">ⓖ</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Profile Card 3 -->
+        <div class="info-card">
+          <h3 class="card-title">🧡 LIKES & INTERESTS</h3>
+          <div class="badge-group">
+            <span class="badge-tag">🎤 노래 부르기</span>
+            <span class="badge-tag">📺 애니메이션 보기</span>
+            <span class="badge-tag">🍜 국물 면요리</span>
+          </div>
+        </div>
+
+        <!-- Profile Card 4: Official Quick Links -->
+        <div class="info-card">
+          <h3 class="card-title">🔗 OFFICIAL CHANNELS & LINKS</h3>
+          <div class="social-grid">
+            <a href="https://www.youtube.com/@songhy___" target="_blank" class="social-btn youtube">
+              📺 유튜브 채널
+            </a>
+            <a href="https://cafe.naver.com/songhysonghy" target="_blank" class="social-btn cafe">
+              ☕ 네이버 팬카페
+            </a>
+            <a href="https://docs.google.com/spreadsheets/d/1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ/edit?gid=767956172#gid=767956172"
+              target="_blank" class="social-btn songbook">
+              🎵 노래책 (신청곡)
+            </a>
+            <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank"
+              class="social-btn fancim">
+              💌 팬심 (FANCIM)
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Audio Player Floating Dock -->
+  <div class="audio-dock">
+    <div class="audio-equalizer">
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+    </div>
+    <span class="audio-title">BGM: 송현 YouTube Music</span>
+    <button class="btn-music-toggle" id="btnMusicToggle" title="BGM 재생/일시정지">▶</button>
+    <a href="https://youtu.be/44zwxDtlju4" target="_blank" style="color:#FFD700;font-size:0.75rem;text-decoration:none;"
+      title="유튜브에서 원본 듣기">🔗</a>
+    <iframe id="bgmIframe" style="position:absolute;width:1px;height:1px;opacity:0.01;pointer-events:none;top:-9999px;"
+      allow="autoplay; encrypted-media"></iframe>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <div class="lightbox-img-box">
+      <img src="" alt="Enlarged Signature" class="lightbox-img" id="lightboxImg">
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
