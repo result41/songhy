@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function playBGM() {
     if (bgmIframe && !isPlayingMusic) {
       isPlayingMusic = true;
-      bgmIframe.src = "https://www.youtube-nocookie.com/embed/44zwxDtlju4?autoplay=1&loop=1&playlist=44zwxDtlju4&enablejsapi=1";
+      bgmIframe.src = "https://www.youtube-nocookie.com/embed/EwzcI6BcC_s?autoplay=1&loop=1&playlist=EwzcI6BcC_s&enablejsapi=1";
       if (btnMusicToggle) btnMusicToggle.textContent = '⏸';
       if (audioEqualizer) audioEqualizer.style.opacity = '1';
 

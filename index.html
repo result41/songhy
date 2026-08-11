@@ -209,13 +209,22 @@
 
   <!-- Audio Player Floating Dock -->
   <div class="audio-dock">
+    <!-- Hover YouTube Video Player Preview Popup -->
+    <div class="yt-player-preview">
+      <div class="yt-player-header">
+        <span>🎬 BGM: 송현 인터페이스</span>
+      </div>
+      <iframe id="bgmIframe" src="https://www.youtube-nocookie.com/embed/EwzcI6BcC_s?enablejsapi=1"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
     <div class="audio-equalizer">
       <div class="eq-bar"></div>
       <div class="eq-bar"></div>
       <div class="eq-bar"></div>
       <div class="eq-bar"></div>
     </div>
-    <span class="audio-title">BGM: 송현 인터페이스</span>
+    <span class="audio-title">BGM: 송현</span>
     <button class="btn-music-toggle" id="btnMusicToggle" title="BGM 재생/일시정지">▶</button>
 
     <!-- BGM Volume Slider Control (Default 50%) -->
@@ -225,10 +234,8 @@
       <span class="volume-value" id="volumeValue">50%</span>
     </div>
 
-    <a href="https://youtu.be/44zwxDtlju4" target="_blank" class="yt-link"
+    <a href="https://youtu.be/EwzcI6BcC_s" target="_blank" class="yt-link"
       style="color:#FFD700;font-size:0.75rem;text-decoration:none;" title="유튜브에서 원본 듣기">🔗</a>
-    <iframe id="bgmIframe" style="position:absolute;width:1px;height:1px;opacity:0.01;pointer-events:none;top:-9999px;"
-      allow="autoplay; encrypted-media"></iframe>
   </div>
 
   <!-- Lightbox Modal -->
