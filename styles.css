@@ -980,6 +980,15 @@ body {
   z-index: 40;
 }
 
+.yt-player-preview::after {
+  content: '';
+  position: absolute;
+  bottom: -25px;
+  left: -30px;
+  right: -30px;
+  height: 35px;
+}
+
 .yt-player-header {
   background: linear-gradient(90deg, #FF0055, #9D00FF);
   padding: 6px 12px;
@@ -999,7 +1008,10 @@ body {
   border: none;
 }
 
-.audio-dock:hover .yt-player-preview {
+.audio-dock:hover .yt-player-preview,
+.audio-dock.hovered .yt-player-preview,
+.yt-player-preview:hover,
+.yt-player-preview.active {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;

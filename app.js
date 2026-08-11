@@ -490,6 +490,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // JS Hover Lock for YouTube Player Preview Popup
+  const audioDockEl = document.querySelector('.audio-dock');
+  const ytPlayerPreviewEl = document.querySelector('.yt-player-preview');
+  let hoverLockTimer = null;
+
+  function keepPopupActive() {
+    if (hoverLockTimer) clearTimeout(hoverLockTimer);
+    if (ytPlayerPreviewEl) ytPlayerPreviewEl.classList.add('active');
+    if (audioDockEl) audioDockEl.classList.add('hovered');
+  }
+
+  function schedulePopupClose() {
+    if (hoverLockTimer) clearTimeout(hoverLockTimer);
+    hoverLockTimer = setTimeout(() => {
+      if (ytPlayerPreviewEl) ytPlayerPreviewEl.classList.remove('active');
+      if (audioDockEl) audioDockEl.classList.remove('hovered');
+    }, 450); // 450ms grace period so mouse never accidentally loses hover!
+  }
+
+  if (audioDockEl) {
+    audioDockEl.addEventListener('mouseenter', keepPopupActive);
+    audioDockEl.addEventListener('mouseleave', schedulePopupClose);
+  }
+
+  if (ytPlayerPreviewEl) {
+    ytPlayerPreviewEl.addEventListener('mouseenter', keepPopupActive);
+    ytPlayerPreviewEl.addEventListener('mouseleave', schedulePopupClose);
+  }
+
   // Interactive Fluid Marquee Engine (Drag & Resume without freezing)
   document.querySelectorAll('.marquee-container').forEach(container => {
     const track = container.querySelector('.marquee-track');
