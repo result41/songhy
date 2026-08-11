@@ -195,87 +195,164 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnFirework = document.getElementById('btnFirework');
 
   function startSummonSequence() {
-    // Hide marquee bars and profile grid during summon cutscene
+    // Hide marquee bars and profile grid initially
     document.querySelectorAll('.marquee-container').forEach(el => el.classList.remove('visible'));
     const profileGrid = document.getElementById('profileGrid');
     if (profileGrid) profileGrid.classList.remove('visible');
 
-    // Trigger BGM on user interaction gesture
+    // Trigger BGM on user gesture
     playBGM();
 
-    playChargingSFX();
-    cutsceneOverlay.classList.add('active');
+    // Directly transition to Card Reveal! (No cutscene overlay delay)
+    stageContainer.style.display = 'none';
+    cardSection.style.display = 'flex';
+    cardSection.classList.add('centering'); // Lock card to dead center of viewport!
 
-    let count = 3;
-    const cutsceneText = document.getElementById('cutsceneText');
-    cutsceneText.textContent = `UR POWER CHARGING... ${count}`;
+    // Trigger screen-filling grand card reveal animation
+    const cardWrapper = document.getElementById('cardWrapper');
+    if (cardWrapper) {
+      cardWrapper.classList.remove('grand-reveal');
+      void cardWrapper.offsetWidth; // Force reflow
+      cardWrapper.classList.add('grand-reveal');
+    }
 
-    const timer = setInterval(() => {
-      count--;
-      if (count > 0) {
-        cutsceneText.textContent = `UR POWER CHARGING... ${count}`;
-      } else {
-        clearInterval(timer);
-        cutsceneText.textContent = `✨ UR 6★ SONGHY SUMMON! ✨`;
+    // Explosion SFX & Multi-location Fireworks!
+    playExplosionSFX();
+    triggerFireworksBurst(180, 8);
 
-        setTimeout(() => {
-          // Explosion Flash
-          playExplosionSFX();
-          flashScreen.classList.add('flash');
+    // After card finishes shrinking back to normal size in center, move to left & slide in profile grid!
+    setTimeout(() => {
+      cardSection.classList.remove('centering'); // Move card to left side!
+      if (profileGrid) profileGrid.classList.add('visible');
+      document.querySelectorAll('.marquee-container').forEach(el => el.classList.add('visible'));
+      triggerFireworksBurst(80, 5);
+    }, 1900);
 
-          setTimeout(() => {
-            cutsceneOverlay.classList.remove('active');
-            stageContainer.style.display = 'none';
-            cardSection.style.display = 'flex';
-            cardSection.classList.add('centering'); // Lock card to dead center of screen during reveal!
-
-            // Trigger screen-filling huge card reveal animation in exact center
-            const cardWrapper = document.getElementById('cardWrapper');
-            if (cardWrapper) {
-              cardWrapper.classList.remove('grand-reveal');
-              void cardWrapper.offsetWidth; // Force reflow
-              cardWrapper.classList.add('grand-reveal');
-            }
-
-            // Trigger celebration fireworks
-            triggerFireworksBurst(150);
-
-            // After card finishes shrinking back to normal size in center, move to left & slide in profile grid!
-            setTimeout(() => {
-              cardSection.classList.remove('centering'); // Move card to left side of flex row!
-              if (profileGrid) profileGrid.classList.add('visible');
-              document.querySelectorAll('.marquee-container').forEach(el => el.classList.add('visible'));
-              triggerFireworksBurst(60);
-            }, 1900);
-
-            // Remove animation class after keyframes complete to restore 3D mouse tilt interaction!
-            setTimeout(() => {
-              if (cardWrapper) {
-                cardWrapper.classList.remove('grand-reveal');
-                cardWrapper.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-              }
-            }, 2450);
-
-            setTimeout(() => {
-              flashScreen.classList.remove('flash');
-            }, 800);
-          }, 300);
-        }, 600);
+    // Remove animation class after keyframes complete to restore 3D mouse tilt interaction!
+    setTimeout(() => {
+      if (cardWrapper) {
+        cardWrapper.classList.remove('grand-reveal');
+        cardWrapper.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
       }
-    }, 700);
+    }, 2450);
   }
 
-  const summonGate = document.querySelector('.summon-gate');
-  if (btnSummon) btnSummon.addEventListener('click', startSummonSequence);
-  if (summonOrb) summonOrb.addEventListener('click', startSummonSequence);
-  if (summonGate) summonGate.addEventListener('click', startSummonSequence);
+  // Interactive Booster Pack Tear Gesture Engine
+  const gachaPack = document.getElementById('gachaPack');
+  const packTopFlap = document.getElementById('packTopFlap');
+  const tearProgressFill = document.getElementById('tearProgressFill');
+  let isTearing = false;
+  let tearStartX = 0;
+  let tearStartY = 0;
+  let tearProgress = 0;
+  let hasTorn = false;
+
+  function handleTearStart(e) {
+    if (hasTorn) return;
+    isTearing = true;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    tearStartX = clientX;
+    tearStartY = clientY;
+    tearProgress = 0;
+  }
+
+  let lastTearAudioTime = 0;
+  function playTearSFX() {
+    try {
+      const now = Date.now();
+      if (now - lastTearAudioTime < 65) return;
+      lastTearAudioTime = now;
+
+      const ctx = getAudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140 + Math.random() * 250, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(70, ctx.currentTime + 0.07);
+
+      gain.gain.setValueAtTime(0.02, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.07);
+    } catch(e) {}
+  }
+
+  function handleTearMove(e) {
+    if (!isTearing || hasTorn) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const deltaX = Math.abs(clientX - tearStartX);
+    const deltaY = Math.abs(clientY - tearStartY);
+    const dist = Math.max(deltaX, deltaY);
+
+    tearProgress = Math.min(100, (dist / 120) * 100);
+    if (tearProgressFill) tearProgressFill.style.width = `${tearProgress}%`;
+
+    // Play paper tear audio scratch SFX during drag!
+    playTearSFX();
+
+    if (tearProgress >= 100 && !hasTorn) {
+      hasTorn = true;
+      isTearing = false;
+      if (packTopFlap) packTopFlap.classList.add('torn');
+      triggerFireworksBurst(60, 3);
+
+      setTimeout(() => {
+        startSummonSequence();
+        hasTorn = false;
+        if (tearProgressFill) tearProgressFill.style.width = '0%';
+        if (packTopFlap) packTopFlap.classList.remove('torn');
+      }, 250);
+    }
+  }
+
+  function handleTearEnd() {
+    if (!hasTorn && isTearing) {
+      isTearing = false;
+      if (tearProgressFill) tearProgressFill.style.width = '0%';
+    }
+  }
+
+  if (gachaPack) {
+    gachaPack.addEventListener('mousedown', handleTearStart);
+    window.addEventListener('mousemove', handleTearMove);
+    window.addEventListener('mouseup', handleTearEnd);
+
+    gachaPack.addEventListener('touchstart', handleTearStart, { passive: true });
+    window.addEventListener('touchmove', handleTearMove, { passive: true });
+    window.addEventListener('touchend', handleTearEnd);
+
+    // Also support direct click to open if user just clicks!
+    gachaPack.addEventListener('click', () => {
+      if (!hasTorn && tearProgress < 30) {
+        hasTorn = true;
+        if (packTopFlap) packTopFlap.classList.add('torn');
+        if (tearProgressFill) tearProgressFill.style.width = '100%';
+        triggerFireworksBurst(60, 3);
+        setTimeout(() => {
+          startSummonSequence();
+          hasTorn = false;
+          if (tearProgressFill) tearProgressFill.style.width = '0%';
+          if (packTopFlap) packTopFlap.classList.remove('torn');
+        }, 250);
+      }
+    });
+  }
 
   if (btnResummon) {
     btnResummon.addEventListener('click', () => {
       cardSection.style.display = 'none';
       stageContainer.style.display = 'flex';
       document.querySelectorAll('.marquee-container').forEach(el => el.classList.remove('visible'));
-      startSummonSequence();
+      if (packTopFlap) packTopFlap.classList.remove('torn');
+      if (tearProgressFill) tearProgressFill.style.width = '0%';
+      hasTorn = false;
     });
   }
 
@@ -348,11 +425,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // YouTube BGM Toggle & Auto-Start Engine
+  // YouTube BGM Toggle & Volume Control (Default 50%)
   const btnMusicToggle = document.getElementById('btnMusicToggle');
   const bgmIframe = document.getElementById('bgmIframe');
   const audioEqualizer = document.querySelector('.audio-equalizer');
+  const bgmVolume = document.getElementById('bgmVolume');
+  const volumeValue = document.getElementById('volumeValue');
+  const volumeIcon = document.getElementById('volumeIcon');
   let isPlayingMusic = false;
+
+  function setBgmVolume(volPercent) {
+    if (bgmIframe && bgmIframe.contentWindow) {
+      bgmIframe.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'setVolume', args: [volPercent] }),
+        '*'
+      );
+    }
+  }
 
   function playBGM() {
     if (bgmIframe && !isPlayingMusic) {
@@ -360,6 +449,11 @@ document.addEventListener('DOMContentLoaded', () => {
       bgmIframe.src = "https://www.youtube-nocookie.com/embed/44zwxDtlju4?autoplay=1&loop=1&playlist=44zwxDtlju4&enablejsapi=1";
       if (btnMusicToggle) btnMusicToggle.textContent = '⏸';
       if (audioEqualizer) audioEqualizer.style.opacity = '1';
+
+      // Apply initial volume (50% default) once iframe initializes
+      const currentVol = bgmVolume ? parseInt(bgmVolume.value, 10) : 50;
+      setTimeout(() => setBgmVolume(currentVol), 600);
+      setTimeout(() => setBgmVolume(currentVol), 1400);
     }
   }
 
@@ -370,6 +464,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btnMusicToggle) btnMusicToggle.textContent = '▶';
       if (audioEqualizer) audioEqualizer.style.opacity = '0.3';
     }
+  }
+
+  if (bgmVolume) {
+    bgmVolume.addEventListener('input', (e) => {
+      const vol = parseInt(e.target.value, 10);
+      if (volumeValue) volumeValue.textContent = `${vol}%`;
+      if (volumeIcon) {
+        if (vol === 0) volumeIcon.textContent = '🔇';
+        else if (vol < 50) volumeIcon.textContent = '🔉';
+        else volumeIcon.textContent = '🔊';
+      }
+      setBgmVolume(vol);
+    });
   }
 
   if (btnMusicToggle) {

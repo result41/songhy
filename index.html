@@ -59,19 +59,44 @@
       <p class="main-subtitle">화려함의 극치! 무지개빛 6성 UR 송현 한정판 카드를 소환해보세요!</p>
     </header>
 
-    <!-- Stage 1: Summon Gate -->
+    <!-- Stage 1: Gacha Booster Pack Envelope -->
     <div class="stage-container" id="stageContainer">
-      <div class="summon-gate">
-        <div class="magic-circle"></div>
-        <div class="magic-circle-inner"></div>
-        <div class="summon-orb" id="summonOrb">Click</div>
+      <div class="pack-wrapper" id="packWrapper">
+        <div class="gacha-pack" id="gachaPack">
+          <!-- Tear Header Strip -->
+          <div class="pack-tear-header" id="packTearHeader">
+            <span class="tear-icon">✂️ DRAG / SWIPE TO TEAR OPEN ✂️</span>
+            <div class="tear-strip-line">
+              <div class="tear-progress-fill" id="tearProgressFill"></div>
+            </div>
+          </div>
+
+          <!-- Top Tear Flap -->
+          <div class="pack-top-flap" id="packTopFlap">
+            <span class="flap-text">✦ UR 6★ LIMITED BOOSTER ✦</span>
+          </div>
+
+          <!-- Pack Body Art (Pure Mysterious Foil Crest - No Card Image) -->
+          <div class="pack-body">
+            <div class="pack-logo-badge">✦ LIMITED EDITION ✦</div>
+            <h2 class="pack-title">SONGHY UR 6★</h2>
+            <div class="pack-crest-box">
+              <div class="crest-emblem">UR</div>
+              <div class="crest-stars">★★★★★★</div>
+              <div class="pack-foil-overlay"></div>
+            </div>
+            <div class="pack-footer-text">✦ SECRET UNKNOWN CARD INSIDE ✦</div>
+          </div>
+        </div>
+        <p class="pack-hint-text">👈👉 상단 무지개 띠를 마우스/손가락으로 쓱 밀어서 뜯어보세요!</p>
       </div>
     </div>
 
     <!-- Cutscene Overlay -->
     <div class="cutscene-overlay" id="cutsceneOverlay">
+      <div class="cutscene-hud-ring"></div>
       <div class="beam-ray"></div>
-      <div class="cutscene-text" id="cutsceneText">UR POWER CHARGING... 3</div>
+      <div class="cutscene-text" id="cutsceneText">✦ UR 6★ DESTINY PORTAL ACTIVATED ✦</div>
     </div>
 
     <!-- Screen Flash -->
@@ -190,10 +215,18 @@
       <div class="eq-bar"></div>
       <div class="eq-bar"></div>
     </div>
-    <span class="audio-title">BGM: 송현 YouTube Music</span>
+    <span class="audio-title">BGM: 송현 인터페이스</span>
     <button class="btn-music-toggle" id="btnMusicToggle" title="BGM 재생/일시정지">▶</button>
-    <a href="https://youtu.be/44zwxDtlju4" target="_blank" style="color:#FFD700;font-size:0.75rem;text-decoration:none;"
-      title="유튜브에서 원본 듣기">🔗</a>
+
+    <!-- BGM Volume Slider Control (Default 50%) -->
+    <div class="volume-control">
+      <span class="volume-icon" id="volumeIcon">🔊</span>
+      <input type="range" id="bgmVolume" min="0" max="100" value="50" class="volume-slider" title="BGM 볼륨 조절 (기본 50%)">
+      <span class="volume-value" id="volumeValue">50%</span>
+    </div>
+
+    <a href="https://youtu.be/44zwxDtlju4" target="_blank" class="yt-link"
+      style="color:#FFD700;font-size:0.75rem;text-decoration:none;" title="유튜브에서 원본 듣기">🔗</a>
     <iframe id="bgmIframe" style="position:absolute;width:1px;height:1px;opacity:0.01;pointer-events:none;top:-9999px;"
       allow="autoplay; encrypted-media"></iframe>
   </div>
