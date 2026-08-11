@@ -1201,11 +1201,92 @@ body {
   text-shadow: 0 0 15px #FF0055;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for mobile and short height screens */
 @media (max-width: 768px) {
   .main-title { font-size: 2.1rem; }
   .gacha-card-wrapper { width: 290px; height: 420px; }
   .card-img-box { height: 280px; }
   .profile-grid { grid-template-columns: 1fr; }
   .cutscene-text { font-size: 2.2rem; }
+}
+
+/* Responsive adjustments for 1016 x 571.5 short height viewport & split windows */
+@media (max-height: 720px) {
+  .marquee-container {
+    height: 100px;
+  }
+
+  .marquee-top.visible { transform: translateY(0); }
+  .marquee-bottom.visible { transform: translateY(0); }
+
+  .sig-card {
+    height: 80px;
+  }
+
+  .sig-img {
+    height: 135px;
+    margin-top: -50px;
+  }
+
+  .app-container {
+    padding: 110px 15px 140px 15px;
+  }
+
+  .card-stage {
+    top: 110px;
+  }
+
+  .gacha-pack {
+    width: 270px;
+    height: 390px;
+  }
+
+  .pack-body {
+    padding: 85px 15px 15px 15px;
+  }
+
+  .pack-art-box, .pack-crest-box {
+    width: 170px;
+    height: 170px;
+  }
+
+  .crest-emblem {
+    font-size: 2.8rem;
+  }
+
+  .gacha-card-wrapper {
+    width: 280px;
+    height: 410px;
+  }
+
+  .card-img-box {
+    height: 270px;
+  }
+
+  .card-character-name {
+    font-size: 1.4rem;
+  }
+
+  .audio-dock {
+    bottom: 50px;
+    right: 15px;
+  }
+}
+
+/* Specific 1016px width responsiveness */
+@media (max-width: 1100px) and (min-width: 769px) {
+  .card-section {
+    gap: 20px;
+    max-width: 980px;
+  }
+
+  .profile-grid {
+    flex: 1 1 540px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  .info-card {
+    padding: 18px;
+  }
 }
